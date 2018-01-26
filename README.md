@@ -1,5 +1,5 @@
 # CMPM163Homework1
-Contains:
+Contains:   
   Part A: 3D Scene (code)   
   Part B: Image Processing (code)   
   Part C: Game of Life (code)   
