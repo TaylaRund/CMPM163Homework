@@ -50,34 +50,61 @@
 		//see https://en.wikipedia.org/wiki/Sobel_operator
 		
 		vec2 texel = vec2( 1.0 / rx, 1.0 / ry );
-		const mat3 Gx = mat3( 0, -1, 0, -1, 5, -1, 0, -1, 0 ); // x direction kernel
-	//	const mat3 Gy = mat3( -1, 0, 1, -2, 0, 2, -1, 0, 1 ); // y direction kernel
+		const mat3 Gxr = mat3(  0,  -1,   0,
+				       -1,  10,  -1,
+					0,  -1,   0 );
+		const mat3 Gxg = mat3(  0,  -1,   0,
+					-1, 4.5,  -1,
+					 0,  -1,   0 );
+		const mat3 Gxb = mat3(  0,  -1,   0,
+					-1,   1,  -1,
+					 0,  -1,   0 );
 		
 		// fetch the 3x3 neighborhood of a fragment
-		vec3 tx0y0 = texture2D( t1, UV + texel * vec2( -1, -1 ) ).rgb;
-		vec3 tx0y1 = texture2D( t1, UV + texel * vec2( -1,  0 ) ).rgb;
-		vec3 tx0y2 = texture2D( t1, UV + texel * vec2( -1,  1 ) ).rgb;
-		vec3 tx1y0 = texture2D( t1, UV + texel * vec2(  0, -1 ) ).rgb;
-		vec3 tx1y1 = texture2D( t1, UV + texel * vec2(  0,  0 ) ).rgb;
-		vec3 tx1y2 = texture2D( t1, UV + texel * vec2(  0,  1 ) ).rgb;
-		vec3 tx2y0 = texture2D( t1, UV + texel * vec2(  1, -1 ) ).rgb;
-		vec3 tx2y1 = texture2D( t1, UV + texel * vec2(  1,  0 ) ).rgb;
-		vec3 tx2y2 = texture2D( t1, UV + texel * vec2(  1,  1 ) ).rgb;
-		vec3 valueGx = Gx[0][0] * tx0y0 + Gx[1][0] * tx1y0 + Gx[2][0] * tx2y0 + 
-				Gx[0][1] * tx0y1 + Gx[1][1] * tx1y1 + Gx[2][1] * tx2y1 + 
-				Gx[0][2] * tx0y2 + Gx[1][2] * tx1y2 + Gx[2][2] * tx2y2;
-	/*	float valueGy = Gy[0][0] * tx0y0 + Gy[1][0] * tx1y0 + Gy[2][0] * tx2y0 + 
-				Gy[0][1] * tx0y1 + Gy[1][1] * tx1y1 + Gy[2][1] * tx2y1 + 
-				Gy[0][2] * tx0y2 + Gy[1][2] * tx1y2 + Gy[2][2] * tx2y2;
-*/
-	//	float G = sqrt( ( valueGx * valueGx ) + ( valueGy * valueGy ) );
+		float tx0y0r = texture2D( t1, UV + texel * vec2( -1, -1 ) ).r;
+		float tx0y1r = texture2D( t1, UV + texel * vec2( -1,  0 ) ).r;
+		float tx0y2r = texture2D( t1, UV + texel * vec2( -1,  1 ) ).r;
+		float tx0y0g = texture2D( t1, UV + texel * vec2( -1, -1 ) ).g;
+		float tx0y1g = texture2D( t1, UV + texel * vec2( -1,  0 ) ).g;
+		float tx0y2g = texture2D( t1, UV + texel * vec2( -1,  1 ) ).g;
+		float tx0y0b = texture2D( t1, UV + texel * vec2( -1, -1 ) ).b;
+		float tx0y1b = texture2D( t1, UV + texel * vec2( -1,  0 ) ).b;
+		float tx0y2b = texture2D( t1, UV + texel * vec2( -1,  1 ) ).b;
+		float tx1y0r = texture2D( t1, UV + texel * vec2(  0, -1 ) ).r;
+		float tx1y1r = texture2D( t1, UV + texel * vec2(  0,  0 ) ).r;
+		float tx1y2r = texture2D( t1, UV + texel * vec2(  0,  1 ) ).r;
+		float tx1y0g = texture2D( t1, UV + texel * vec2(  0, -1 ) ).g;
+		float tx1y1g = texture2D( t1, UV + texel * vec2(  0,  0 ) ).g;
+		float tx1y2g = texture2D( t1, UV + texel * vec2(  0,  1 ) ).g;
+		float tx1y0b = texture2D( t1, UV + texel * vec2(  0, -1 ) ).b;
+		float tx1y1b = texture2D( t1, UV + texel * vec2(  0,  0 ) ).b;
+		float tx1y2b = texture2D( t1, UV + texel * vec2(  0,  1 ) ).b;
+		float tx2y0r = texture2D( t1, UV + texel * vec2(  1, -1 ) ).r;
+		float tx2y1r = texture2D( t1, UV + texel * vec2(  1,  0 ) ).r;
+		float tx2y2r = texture2D( t1, UV + texel * vec2(  1,  1 ) ).r;
+		float tx2y0g = texture2D( t1, UV + texel * vec2(  1, -1 ) ).g;
+		float tx2y1g = texture2D( t1, UV + texel * vec2(  1,  0 ) ).g;
+		float tx2y2g = texture2D( t1, UV + texel * vec2(  1,  1 ) ).g;
+		float tx2y0b = texture2D( t1, UV + texel * vec2(  1, -1 ) ).b;
+		float tx2y1b = texture2D( t1, UV + texel * vec2(  1,  0 ) ).b;
+		float tx2y2b = texture2D( t1, UV + texel * vec2(  1,  1 ) ).b;
 		
-		vec4 edgePix = vec4(vec3( valueGx ), 1.0);
-		//vec4 edgePix = vec4( vec3( G ), 1.0);
+		float valueGxr = Gxr[0][0] * tx0y0r + Gxr[1][0] * tx1y0r + Gxr[2][0] * tx2y0r + 
+				 Gxr[0][1] * tx0y1r + Gxr[1][1] * tx1y1r + Gxr[2][1] * tx2y1r + 
+				 Gxr[0][2] * tx0y2r + Gxr[1][2] * tx1y2r + Gxr[2][2] * tx2y2r;
+		float valueGxg = Gxg[0][0] * tx0y0g + Gxg[1][0] * tx1y0g + Gxg[2][0] * tx2y0g + 
+				 Gxg[0][1] * tx0y1g + Gxg[1][1] * tx1y1g + Gxg[2][1] * tx2y1g + 
+				 Gxg[0][2] * tx0y2g + Gxg[1][2] * tx1y2g + Gxg[2][2] * tx2y2g;
+		float valueGxb = Gxb[0][0] * tx0y0b + Gxb[1][0] * tx1y0b + Gxb[2][0] * tx2y0g + 
+				 Gxb[0][1] * tx0y1b + Gxb[1][1] * tx1y1b + Gxb[2][1] * tx2y1g + 
+				 Gxb[0][2] * tx0y2b + Gxb[1][2] * tx1y2b + Gxb[2][2] * tx2y2g;
+		
+		vec4 red = vec4(vec3(valueGxr, valueGxg, valueGxb), 1.0);
+		vec4 blue = vec4(vec3(valueGxb, valueGxg, valueGxr), 1.0);
 		vec4 texPix = texture2D(t1, UV);
-		//gl_FragColor = vec4( vec3(1.0) - vec3( G ), 1 );
-		gl_FragColor = mix(texPix, vec4 (valueGx,1.0), mixVal);
-		//mix(texPix, edgePix, mixVal); 
+		
+		gl_FragColor = mix(red*texPix, blue*texPix, mixVal); 
+ 
 	}
 	</script>
 
