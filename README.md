@@ -4,7 +4,7 @@ Contains:
   Part B: Image Processing (code)   
   Part C: Game of Life (code)   
   Part D: Visual Effect (document)   
-# 3DScene
+[Part A](CMPM163Homework1/3DScene.html)
 # ImageProcesser
 # GameOfLifeColor
 # VisualEffectDescription 
