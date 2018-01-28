@@ -1,11 +1,6 @@
 # CMPM163Homework1
 Contains:   
-  Part A: 3D Scene (code)   
-  Part B: Image Processing (code)   
-  Part C: Game of Life (code)   
+  [Part A](CMPM163Homework1/3DScene.html): 3D Scene (code)   
+  [Part B](CMPM163Homework1/ImageProcesser.html): Image Processing (code)   
+  [Part C](CMPM163Homework1/GameOfLifeColor.html): Game of Life (code)   
   Part D: Visual Effect (document)   
-[Part A](CMPM163Homework1/3DScene.html)
-# ImageProcesser
-# GameOfLifeColor
-# VisualEffectDescription 
-
