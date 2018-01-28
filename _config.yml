@@ -2,6 +2,9 @@ theme: jekyll-theme-cayman
 title: Homework 1
 description: CMPM 163
 README.md
-hw1/
-  3DScene.html
-  js/
+
+Contains:
+Part A: 3D Scene (code)
+Part B: Image Processing (code)
+Part C: Game of Life (code)
+Part D: Visual Effect (document)
