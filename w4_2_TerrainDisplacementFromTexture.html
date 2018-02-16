@@ -248,10 +248,10 @@
 			container = document.getElementById( 'container' );
 			camera = new THREE.PerspectiveCamera( 50.0, window.innerWidth / window.innerHeight, 0.1, 500 );
 			//adds a default mouse listener to control the camera rotation and zoom
-			var controls = new THREE.OrbitControls( camera );
+			//var controls = new THREE.OrbitControls( camera );
 			camera.position.y = 35;
 			camera.position.z = 20;
-			controls.update();
+			//controls.update();
 			scene = new THREE.Scene();
 			var geometryEM;
 
