@@ -32,7 +32,10 @@
 
 		<div id="container"></div>
 
-    <script src="./three.js"></script>
+    		<script src="./three.js"></script>
+		<script src="./trackBallControls.js"></script>
+		<script src="./orbitControls.js"></script>
+		<script src="./GUI.js"></script>
     
 
 
@@ -221,7 +224,7 @@
 		<script>
 
 			var container, controls, options, spawnerOptions, particleSystem;
-			//var gui = new dat.GUI({width: 350});
+			var gui = new dat.GUI({width: 350});
 			var time = 0;
 			var camera, scene, renderer, tick = 0;
 
@@ -248,10 +251,10 @@
 			container = document.getElementById( 'container' );
 			camera = new THREE.PerspectiveCamera( 50.0, window.innerWidth / window.innerHeight, 0.1, 500 );
 			//adds a default mouse listener to control the camera rotation and zoom
-			//var controls = new THREE.OrbitControls( camera );
+			var controls = new THREE.OrbitControls( camera );
 			camera.position.y = 35;
 			camera.position.z = 20;
-			//controls.update();
+			controls.update();
 			scene = new THREE.Scene();
 			var geometryEM;
 
@@ -324,7 +327,7 @@
 					//terrainTexture:
 				}
 
-				//gui.add(options, "planePosition", -498, -496);
+				gui.add(options, "planePosition", -498, -496);
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setClearColor( 0x999999 );
