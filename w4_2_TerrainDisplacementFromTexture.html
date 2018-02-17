@@ -242,7 +242,7 @@
 				scene.add (plane);
 				//-----------------------------------------------------------------------
 				options = {
-					planePosition: -498,
+					Tide: -498,
 				}
 
 				gui.add(options, "Tide", -498, -496);
@@ -268,7 +268,7 @@
 			}
 
 			function render() {
-				plane.position.y = options.planePosition;
+				plane.position.y = options.Tide;
 				var object0 = scene.children[ 0 ];
 				object0.material.uniforms.displaceAmt.value = 13.0;
 				renderer.render( scene, camera );
