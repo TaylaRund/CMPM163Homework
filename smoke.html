@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>demo - shader</title>
+		<title>Homework 2B</title>
 		<meta charset="utf-8">
 		<style>
 			body {
@@ -433,8 +433,8 @@
 
 			function render() {
 				var object0 = scene.children[ 0 ];
-				object0.material.uniforms.displaceAmt.value = 13.0;
-        			explosion.position.y = 10;
+				object0.material.uniforms.displaceAmt.value = 20.0;
+        			explosion.position.y = 15;
         			explosion.rotation.x = options.displacement/10;
         			explosion.material.uniforms.displaceAmt.value = options.displacement;
 				renderer.render( scene, camera );
