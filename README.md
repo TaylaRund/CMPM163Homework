@@ -1,7 +1,7 @@
 # CMPM163Homework1
 Contains:
 
-Homework 1:
+Homework 1:                                   
   Part A: A scene with four objects with different shaders or textures and multiple lights.    
   Part B: An effect that changes the hue of a picture, when the mouse is on the left, the image is red, as it moves right, the image turns magenta and then blue.     
   Part C: Using the ping-pong strategy, this version of the game of life has three states, alive, sick, and dead. The game starts with random states but then the dead cells spread until only thin lines of alive cells exists.    
