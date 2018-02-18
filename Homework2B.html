@@ -353,7 +353,6 @@
         			scene.add(plane);
 				//----------------------------------------------------------------------
 				var cubeMap = new THREE.CubeTextureLoader()
-				.setPath("./LarnacaBeach/")
 				.load( [
 					'posx.jpg',
 					'negx.jpg',
@@ -437,7 +436,7 @@
 				if (options.displacement > 1) {
         				explosion.position.y = 15;
 				}
-        			//explosion.rotation.x = options.displacement/10;
+        			explosion.rotation.y = options.displacement/10;
         			explosion.material.uniforms.displaceAmt.value = options.displacement;
 				renderer.render( scene, camera );
 			}
