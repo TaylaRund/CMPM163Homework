@@ -36,6 +36,7 @@
     		<script src="./orbitControls.js"></script>
 		<script src="./GUI.js"></script>
 		<script src="./trackBallControls.js"></script>
+  		<script src="./GPUParticleSystem.js"></script>
 		
     		<script id="terrainVS" type="x-shader/x-vertex">
 			uniform mat4 modelMatrix;
@@ -288,6 +289,29 @@
         			gl_FragColor = vec4( color.rgb, 1.0 );
 			}
 		</script>
+		
+		<script id="partVS" type="x-shader/x-vertex">
+      			uniform float amplitude;
+      			attribute float size;
+      			attribute vec3 customColor;
+      			varying vec3 vColor;
+      			void main() {
+        			vColor = customColor;
+        			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+        			gl_PointSize = size * ( 300.0 / -mvPosition.z );
+        			gl_Position = projectionMatrix * mvPosition;
+      			}
+		</script>
+		
+		<script id="partFS" type="x-shader/x-fragment">
+      			uniform vec3 color;
+      			uniform sampler2D texture;
+      			varying vec3 vColor;
+      			void main() {
+        			gl_FragColor = vec4( color * vColor, 1.0 );
+        			gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+      			}
+		</script>
 
 		<script>
       			var ter_vs = document.getElementById( 'terrainVS' ).textContent;
@@ -299,8 +323,10 @@
       			var vsn = document.getElementById( 'noiseVS' ).textContent;
       			var fsn = document.getElementById( 'noiseFS' ).textContent;
       			var fsn2 = document.getElementById( 'noiseFS2' ).textContent;
+			var part_vs = document.getElementById( 'partVS' ).textContent;
+      			var part_fs = document.getElementById( 'partFS' ).textContent;
 
-			var container, controls, options, spawnerOptions, particleSystem;
+			var container, controls, options, spawnerOptions, particleSystem, boxOfPoints;
 			var gui = new dat.GUI({width: 350});
 			var time = 0;
 			var camera, scene, renderer;
@@ -310,6 +336,8 @@
 			var texture2 = new THREE.TextureLoader().load( 'volcanoColor.jpg' );
 			var skymesh;//, plane;
 			var texture1;
+			
+			var tex1 = new THREE.TextureLoader().load( "spark.png" );
 
 			container = document.getElementById( 'container' );
 			camera = new THREE.PerspectiveCamera( 50.0, window.innerWidth / window.innerHeight, 0.1, 500 );
@@ -404,6 +432,44 @@
         			meshN2.translateZ(5);
 				meshN2.rotateX(1.0)
         			scene.add( meshN2 );
+				
+				amount = 100;
+  				var radius = 2;
+  				var positions = new Float32Array( amount * 3 );
+  				var colors = new Float32Array( amount * 3 );
+  				var sizes = new Float32Array( amount );
+  				var vertex = new THREE.Vector3();
+  				var color = new THREE.Color( 0xffffff );
+  				for ( var i = 0; i < amount; i ++ ) {
+  					vertex.x = ( Math.random() * 2 - 1 ) * radius;
+  					vertex.y = ( Math.random() * 2 - 1 ) * radius;
+  					vertex.z = ( Math.random() * 2 - 1 ) * radius;
+  					vertex.toArray( positions, i * 3 );
+  					color.setHSL( 0.0 + 0.1 * ( i / amount ), 0.9, 0.5 );
+  					color.toArray( colors, i * 3 );
+  					sizes[ i ] = 20;
+  				}
+  				var geometry = new THREE.BufferGeometry();
+  				geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+  				geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+  				geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+  				var material = new THREE.ShaderMaterial( {
+  					uniforms: {
+  						amplitude: { value: 1.0 },
+  						color:     { value: new THREE.Color( 0xffffff ) },
+  						texture:   { value: tex1 }
+  					},
+  					vertexShader:   part_vs,
+  					fragmentShader: part_fs,
+  					blending:       THREE.AdditiveBlending,
+  					depthTest:      false,
+  					transparent:    true
+  				});
+  				boxOfPoints = new THREE.Points( geometry, material );
+        			boxOfPoints.position.x = 5;
+        			boxOfPoints.position.y = 12;
+        			boxOfPoints.position.z = 5;
+  				scene.add( boxOfPoints );
 
 				options = {
 					displacement: 0,
@@ -438,6 +504,14 @@
         				explosion.position.y = 15;
 				}
         			explosion.material.uniforms.displaceAmt.value = options.displacement;
+				var time = Date.now() * 0.005;
+  				boxOfPoints.rotation.z = 0.01 * time;
+  				var geometry = boxOfPoints.geometry;
+  				var attributes = geometry.attributes;
+  				for ( var i = 0; i < attributes.size.array.length; i++ ) {
+  					attributes.size.array[ i ] = 14 + 13 * Math.sin( 0.1 * i + time );
+  				}
+  				attributes.size.needsUpdate = true;
 				renderer.render( scene, camera );
 			}
 
