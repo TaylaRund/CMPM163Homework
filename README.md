@@ -1,4 +1,4 @@
-# CMPM163Homework1
+# CMPM 163 Homework
 Contains:
 
 Homework 1:                                   
