@@ -434,7 +434,9 @@
 			function render() {
 				var object0 = scene.children[ 0 ];
 				object0.material.uniforms.displaceAmt.value = 20.0;
-        			explosion.position.y = 15;
+				if (options.displacement > 1) {
+        				explosion.position.y = 15;
+				}
         			explosion.rotation.x = options.displacement/10;
         			explosion.material.uniforms.displaceAmt.value = options.displacement;
 				renderer.render( scene, camera );
