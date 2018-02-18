@@ -467,15 +467,15 @@
   				});
   				boxOfPoints = new THREE.Points( geometry, material );
         			boxOfPoints.position.x = 5;
-        			boxOfPoints.position.y = 15;
+        			boxOfPoints.position.y = 16;
         			boxOfPoints.position.z = 5;
   				scene.add( boxOfPoints );
 
 				options = {
-					displacement: 0,
+					Explode: 0,
 				}
 
-				gui.add(options, "displacement", 0, 30);
+				gui.add(options, "Explode", 0, 30);
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setClearColor( 0x999999 );
@@ -503,7 +503,7 @@
 				if (options.displacement > 1) {
         				explosion.position.y = 15;
 				}
-        			explosion.material.uniforms.displaceAmt.value = options.displacement;
+        			explosion.material.uniforms.displaceAmt.value = options.Explode;
 				var time = Date.now() * 0.005;
   				boxOfPoints.rotation.z = 0.01 * time;
   				var geometry = boxOfPoints.geometry;
